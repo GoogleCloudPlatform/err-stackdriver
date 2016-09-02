@@ -1,0 +1,7 @@
+[Core]
+Name = GoogleCloudMonitoring
+Module = monitoring
+DependsOn = GoogleCloud
+
+[Documentation]
+Description = Commands related to monitoiring in GCE.

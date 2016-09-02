@@ -1,0 +1,7 @@
+[Core]
+Name = GoogleCloud
+Module = gcloud
+
+
+[Documentation]
+Description = Common plugin for Google Cloud

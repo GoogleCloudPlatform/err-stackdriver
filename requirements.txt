@@ -1,0 +1,5 @@
+google-api-python-client
+oauth2client
+python-dateutil
+matplotlib
+https://github.com/enthought/python-analytics/archive/master.zip

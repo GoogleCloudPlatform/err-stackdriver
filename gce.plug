@@ -1,0 +1,7 @@
+[Core]
+Name = GoogleCloudCompute
+Module = gce
+DependsOn = GoogleCloud
+
+[Documentation]
+Description = Commands related to GCE.
