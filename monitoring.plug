@@ -4,4 +4,4 @@ Module = monitoring
 DependsOn = GoogleCloud
 
 [Documentation]
-Description = Commands related to monitoiring in GCE.
+Description = Commands related to monitoring your Google Cloud resources.

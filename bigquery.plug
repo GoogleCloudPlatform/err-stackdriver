@@ -4,4 +4,4 @@ Module = bigquery
 DependsOn = GoogleCloud
 
 [Documentation]
-Description = Plugin to use bigquery.
+Description = Commands for Google BigQuery.
