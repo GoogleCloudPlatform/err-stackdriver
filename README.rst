@@ -33,9 +33,9 @@ Contributing
 
 Contributions to this plugin are always welcome and highly encouraged.
 
-See `err-gcloud`'s `CONTRIBUTE <CONTRIBUTE>`_ documentation.
+See `err-gcloud`'s `CONTRIBUTE <CONTRIBUTE.md>`_ documentation.
 
-Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms. See `Code of Conduct <code-of-conduct>`_ for more information.
+Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms. See `Code of Conduct <CODE_OF_CONDUCT.md>`_ for more information.
 
 License
 -------
