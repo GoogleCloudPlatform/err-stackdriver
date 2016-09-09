@@ -3,10 +3,9 @@ from errbot.backends.test import testbot  # noqa
 # temporary
 from os import path
 
-# TODO: unhardcode
-LOCAL_SERVACC='/Users/gbin/projects/errbot-data/servacc.json'
+LOCAL_SERVACC = 'servacc.json'
 
-extra_config={'GOOGLE_SERVICE_ACCOUNT': LOCAL_SERVACC}
+extra_config = {'GOOGLE_SERVICE_ACCOUNT': LOCAL_SERVACC}
 extra_plugin_dir = path.join(path.dirname(path.realpath(__file__)), '..')
 
 
