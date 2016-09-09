@@ -118,7 +118,7 @@ def get_collection_from_metrics(api, project_id, metric, start, end, time_interv
     """Gets a collection of lines for a given project and metric.
 
     Args:
-      api: (Google Cloud Monitoring API client)
+      api: (Stackdriver Monitoring API client)
       project_id: (str|int) The project ID from Cloud Platform.
       metric: (str) The metric name. Taken from-
         https://cloud.google.com/monitoring/api/metrics.
