@@ -37,8 +37,6 @@ class BigQuery(BotPlugin):
         self.gc = self.get_plugin('GoogleCloud')
         self.credentials = self.gc.credentials
         self.bigquery = build('bigquery', 'v2', credentials=self.credentials)
-        self.project = property(self.project)
-        self.bucket = property(self.bucket)
 
     def project(self):
         if not self.is_activated:
@@ -57,7 +55,7 @@ class BigQuery(BotPlugin):
     def bq_datasets(self, msg, args):
         """List the datasets from the project."""
         datasets = self.bigquery.datasets()
-        response = datasets.list(projectId=self.project).execute()
+        response = datasets.list(projectId=self.project()).execute()
         for dataset in response['datasets']:
             yield '%s' % dataset['datasetReference']['datasetId']
 
@@ -141,16 +139,16 @@ class BigQuery(BotPlugin):
         """
         start_time = time()
         jobs = self.bigquery.jobs()
-        response = jobs.query(projectId=self.project, body={'query': query}).execute()
+        response = jobs.query(projectId=self.project(), body={'query': query}).execute()
         job_id = None
         while 'jobComplete' in response and not response['jobComplete']:
             job_id = response['jobReference']['jobId']
             yield None, 'BigQuery job "%s" is in progress ... %0.2fs' % (job_id, time()-start_time)
             sleep(5)
-            response = jobs.get(projectId=self.project, jobId=job_id).execute()
+            response = jobs.get(projectId=self.project(), jobId=job_id).execute()
 
         if job_id:
-            yield jobs.getQueryResults(projectId=self.project, jobId=job_id).execute(), ''
+            yield jobs.getQueryResults(projectId=self.project(), jobId=job_id).execute(), ''
         else:
             yield response, ''
 
@@ -195,7 +193,7 @@ class BigQuery(BotPlugin):
         else:
             values_indices = list(range(1, len(schema_fields)))  # assume all the columns are relevant
 
-        filename = '%s.%s.png' % (self.project, get_ts())
+        filename = '%s.%s.png' % (self.project(), get_ts())
         output = os.path.join(self.gc.outdir, filename)
 
         if schema_fields[index_index]['type'] == 'TIMESTAMP':
@@ -242,7 +240,7 @@ class BigQuery(BotPlugin):
     def save_image(self, filename, output, response):
         with open(output, 'rb') as source:
             media = MediaIoBaseUpload(source, mimetype='image/png')
-            response = self.gc.storage.objects().insert(bucket=self.bucket,
+            response = self.gc.storage.objects().insert(bucket=self.bucket(),
                                                         name=filename,
                                                         media_body=media,
                                                         predefinedAcl='publicRead').execute()

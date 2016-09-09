@@ -40,8 +40,6 @@ class GoogleCloudMonitoring(BotPlugin):
             self['bookmarks'] = []
 
         self.monitoring = build('monitoring', 'v3', credentials=self.credentials)
-        self.project = property(self.project)
-        self.bucket = property(self.bucket)
 
     def project(self):
         if 'project' not in self.gc:
@@ -54,7 +52,7 @@ class GoogleCloudMonitoring(BotPlugin):
         return self.gc['bucket']
 
     def gen_graph(self, metric, prefix):
-        filename = '%s-%s.%s.png' % (prefix.replace('/', '_'), self.gc['project'], get_ts())
+        filename = '%s-%s.%s.png' % (prefix.replace('/', '_'), self.project(), get_ts())
         output = os.path.join(self.gc.outdir, filename)
         end = datetime.utcnow() + timedelta(minutes=1)
         start = end - timedelta(minutes=15)
@@ -74,7 +72,7 @@ class GoogleCloudMonitoring(BotPlugin):
         # compute.googleapis.com/instance/cpu/utilization
         collection = line.get_collection_from_metrics(
                 api=timeseries.Client(self.monitoring),
-                project_id=self.gc['project'],
+                project_id=self.project(),
                 metric=metric,
                 start=start, end=end, time_interval_display=tid)
         charts.generate_timeseries_linechart(
@@ -85,7 +83,7 @@ class GoogleCloudMonitoring(BotPlugin):
         )
         with open(output, 'rb') as source:
             media = MediaIoBaseUpload(source, mimetype='image/png')
-            response = self.gc.storage.objects().insert(bucket=self.gc['bucket'],
+            response = self.gc.storage.objects().insert(bucket=self.bucket(),
                                                         name=filename,
                                                         media_body=media,
                                                         predefinedAcl='publicRead').execute()
@@ -98,7 +96,7 @@ class GoogleCloudMonitoring(BotPlugin):
         out = []
 
         default_request_kwargs = dict(
-            name='projects/{}'.format(self.gc['project']),
+            name='projects/{}'.format(self.project()),
         )
         if args:
             default_request_kwargs['filter'] = 'metric.type : "%s"' % args
@@ -149,7 +147,7 @@ class GoogleCloudMonitoring(BotPlugin):
         except ValueError:
             metric_type = args.strip()
 
-        res = self.monitoring.projects().metricDescriptors().list(name='projects/%s' % self.gc['project'],
+        res = self.monitoring.projects().metricDescriptors().list(name='projects/%s' % self.project(),
                                                                   filter='metric.type = "%s"' % metric_type).execute()
         metrics = res.get('metricDescriptors', [])
 
@@ -169,7 +167,7 @@ class GoogleCloudMonitoring(BotPlugin):
         self.send_card(in_reply_to=msg,
                        title=metric['description'],
                        image=url,
-                       fields=(('Project', self.gc['project']),
+                       fields=(('Project', self.project()),
                                ('Metric', metric),
                                ('From', str(now - timedelta(minutes=15))),
                                ('To', str(now)),
