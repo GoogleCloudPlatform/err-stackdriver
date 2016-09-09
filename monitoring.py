@@ -121,13 +121,20 @@ class GoogleCloudMonitoring(BotPlugin):
 
 
     @botcmd
-    def metric_bookmark(self, _, args: str):
+    def metric_addbookmark(self, _, args: str):
         """
         Stores a metric bookmark and assigns it a number.
         """
         with self.mutable('bookmarks') as bookmarks:
             bookmarks.append(args)
         return "Your bookmark has been stored, you can chart it with !metrics chart %i." % (len(bookmarks) - 1)
+
+    @botcmd
+    def metric_bookmarks(self, _, args: str):
+        """
+        Stores a metric bookmark and assigns it a number.
+        """
+        return '\n'.join( '%i: %s' % (i, bookmark) for i, bookmark in enumerate(self['bookmarks']))
 
     @botcmd
     def metric_delbookmark(self, _, args: str):
