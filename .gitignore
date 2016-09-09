@@ -6,3 +6,4 @@
 /.settings
 /config.py
 /tests/.cache
+/servacc.json
