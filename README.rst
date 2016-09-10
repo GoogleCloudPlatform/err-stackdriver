@@ -31,7 +31,7 @@ Then you'll need to install this plugin on your Errbot instance doing `!repos in
 
 The plugin will need a service account .json key in the data directory of errbot renamed as `servacc.json`.
 
-Once evrything is setup, you can connect your bot to your Slack channel following `this documentation <http://errbot.io/en/latest/user_guide/configuration/slack.html>`_.
+Once everything is setup, you can connect your bot to your Slack channel following `this documentation <http://errbot.io/en/latest/user_guide/configuration/slack.html>`_.
 
 Contributing
 ------------
