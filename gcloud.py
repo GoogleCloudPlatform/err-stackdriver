@@ -53,7 +53,7 @@ class GoogleCloud(BotPlugin):
             yield "The syntax is !project set [name]"
             return
         self['project'] = args[0]
-        if 'tracking' not in self:
+        if 'collect' not in self:
             yield "To improve Google Cloud ChatOps, we would like to collect anonymous & aggregated usage. " \
                   "If you agree with that please execute the command: '!collect agree'. At any moment you can disable" \
                   " it by executing the command '!collect disagree`."
