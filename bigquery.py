@@ -10,14 +10,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-
 import os
 from datetime import datetime
 from time import sleep, time
 
 from errbot import botcmd, BotPlugin, arg_botcmd
-
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
 
@@ -28,6 +25,7 @@ from charts.line import Collection, Line
 def get_ts():
     now = datetime.now()
     return '%s.%d' % (now.strftime('%Y%m%d-%H%M%S'), now.microsecond)
+
 
 class BigQuery(BotPlugin):
     def activate(self):
@@ -76,9 +74,8 @@ class BigQuery(BotPlugin):
                 result.append((name, str))
         return result
 
-
     @botcmd
-    def bq_addquery(self, msg, args:str):
+    def bq_addquery(self, msg, args: str):
         """
         Stores a query and assigns it a number.
         """
@@ -96,7 +93,7 @@ class BigQuery(BotPlugin):
         return "%i queries have been defined." % len(queries)
 
     @botcmd
-    def bq_queries(self, msg, args:str):
+    def bq_queries(self, msg, args: str):
         return '\n\n'.join("%i: %s" % (i, q) for i, q in enumerate(self['queries']))
 
     @botcmd
@@ -143,7 +140,7 @@ class BigQuery(BotPlugin):
         job_id = None
         while 'jobComplete' in response and not response['jobComplete']:
             job_id = response['jobReference']['jobId']
-            yield None, 'BigQuery job "%s" is in progress ... %0.2fs' % (job_id, time()-start_time)
+            yield None, 'BigQuery job "%s" is in progress ... %0.2fs' % (job_id, time() - start_time)
             sleep(5)
             response = jobs.get(projectId=self.project(), jobId=job_id).execute()
 
@@ -170,7 +167,7 @@ class BigQuery(BotPlugin):
 
         if not query:
             yield 'Usage: !bq chart [--index nb_or_name] [--values nb_or_name,...] QUERY_OR_QUERY_INDEX\n' \
-                   'You can save a query with !bq addquery'
+                  'You can save a query with !bq addquery'
 
         for response, feedback in self.sync_bq_job(query):
             if response:
@@ -212,14 +209,15 @@ class BigQuery(BotPlugin):
 
             start, end = xs[0], xs[-1]
 
-            collection = Collection(lines=[Line(schema_fields[values_indices[i]]['name'], xs, ys) for i, ys in enumerate(series)],
-                                    title=query,
-                                    start=start,
-                                    end=end)
+            collection = Collection(
+                lines=[Line(schema_fields[values_indices[i]]['name'], xs, ys) for i, ys in enumerate(series)],
+                title=query,
+                start=start,
+                end=end)
 
             generate_timeseries_linechart(
                 collection=collection,
-                time_interval_display=interval.Guess(start, end),
+                time_interval_display=interval.guess(start, end),
                 outfile=output,
             )
 
@@ -235,7 +233,7 @@ class BigQuery(BotPlugin):
             yield self.save_image(filename, output, response)['mediaLink']
         else:
             yield "The index column is of type %s which is not compatible for a graph: " \
-                   "it should be either a TIMESTAMP or a STRING." % schema_fields[index_index]['type']
+                  "it should be either a TIMESTAMP or a STRING." % schema_fields[index_index]['type']
 
     def save_image(self, filename, output, response):
         with open(output, 'rb') as source:

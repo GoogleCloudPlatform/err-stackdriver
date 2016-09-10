@@ -11,9 +11,11 @@
 # limitations under the License.
 
 
-from errbot import botcmd, BotPlugin
 from datetime import datetime
+
+from errbot import botcmd, BotPlugin
 from googleapiclient.discovery import build
+
 
 def get_ts():
     now = datetime.now()
@@ -45,5 +47,3 @@ class GoogleCloudCompute(BotPlugin):
         zone = 'us-central1-c'
         result = self.compute.instances().list(project=self.gc['project'], zone=zone).execute()
         yield {'vms': []} if 'items' not in result else {'vms': result['items']}
-
-

@@ -16,8 +16,7 @@ ONE_MINUTE = datetime.timedelta(minutes=1)
 FIVE_MINUTES = datetime.timedelta(minutes=5)
 
 
-
-def round_time(dt: datetime.datetime, delta: datetime.timedelta=FIVE_MINUTES, round_up: bool=True):
+def round_time(dt: datetime.datetime, delta: datetime.timedelta = FIVE_MINUTES, round_up: bool = True):
     """Round a datetime object to a multiple of a timedelta.
 
     Args:

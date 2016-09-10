@@ -1,13 +1,12 @@
-from pytest import fixture
 from errbot.backends.test import testbot  # noqa
 
-# temporary
 from os import path
 
 LOCAL_SERVACC = 'servacc.json'
 
 extra_config = {'GOOGLE_SERVICE_ACCOUNT': LOCAL_SERVACC}
 extra_plugin_dir = path.join(path.dirname(path.realpath(__file__)), '..')
+
 
 def prepare(tb):
     """
@@ -27,9 +26,9 @@ def test_vm_list(testbot):
 
 def test_add_remove_list_queries(testbot):
     prepare(testbot)
-    assert 'Your query has been stored, you can execute it with !bq 0.' in \
-                       testbot.exec_command("!bq addquery SELECT metadata.timestamp, protoPayload.resource AS version "
-                                          "FROM (TABLE_DATE_RANGE(version_logs.appengine_googleapis_com_request_log_, "
-                                          "DATE_ADD(CURRENT_TIMESTAMP(), -1, 'DAY'), CURRENT_TIMESTAMP()))")
+    assert 'Your query has been stored, you can execute it with !bq 0.' in testbot.exec_command(
+                           "!bq addquery SELECT metadata.timestamp, protoPayload.resource AS version "
+                           "FROM (TABLE_DATE_RANGE(version_logs.appengine_googleapis_com_request_log_, "
+                           "DATE_ADD(CURRENT_TIMESTAMP(), -1, 'DAY'), CURRENT_TIMESTAMP()))")
     assert '0' in testbot.exec_command("!bq queries")
     assert '0 queries have been defined.' in testbot.exec_command("!bq delquery 0")

@@ -11,15 +11,9 @@
 # limitations under the License.
 
 """Generates a chart of Cloud Monitoring metrics. Not thread safe."""
-# Be sure we put matplotlib on the right backend before importing other classes from it.
 from numbers import Number
-from typing import Sequence, List
-
-from matplotlib import use
-
+from typing import List
 from charts.line import Collection
-
-use('Agg')
 
 import base64
 import datetime
@@ -79,9 +73,12 @@ def _compute_graph_dimensions(num_lines):
     return width, height
 
 
+def _nicett(ts):
+    return ts.strftime('%Y-%m-%d %H:%M:%S')
+
+
 def _generate_subtitle(lines):
-    nice = lambda t: t.strftime('%Y-%m-%d %H:%M:%S')
-    return '[%s - %s UTC]' % (nice(lines.start), nice(lines.end))
+    return '[%s - %s UTC]' % (_nicett(lines.start), _nicett(lines.end))
 
 
 def _get_x_ticks(lines, time_interval_display):
@@ -125,11 +122,11 @@ def generate_timeseries_linechart(collection: Collection, time_interval_display:
     ax.set_axis_bgcolor('black')
 
     plt.locator_params(axis='y', nbins=6)
-    color_iter = plt.cm.rainbow(np.linspace(0, 1, num_lines))
-    for line, color in zip(collection, color_iter):
+    color_iter = plt.cm.rainbow(np.linspace(0, 1, num_lines))  # noqa
+    for current_line, color in zip(collection, color_iter):
         actual_label = '{label}: {current_value}'.format(
-            label=line.label, current_value=y_formatter(line.ys[-1]))
-        ax.plot(line.xs, line.ys, label=actual_label, linewidth=1.8, color=color)
+            label=current_line.label, current_value=y_formatter(current_line.ys[-1]))
+        ax.plot(current_line.xs, current_line.ys, label=actual_label, linewidth=1.8, color=color)
 
     plt.grid(b=True, which='major', color='lightgrey', linestyle='-')
     plt.grid(axis='x', which='minor', color='grey', linestyle='-')

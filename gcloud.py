@@ -9,17 +9,20 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 import logging
 import os
 import uuid
 
-from oauth2client.client import GoogleCredentials
-from googleapiclient.discovery import build
-from python_analytics import Tracker, Event
 import requests
-
 from errbot import BotPlugin, botcmd, cmdfilter, version
+from googleapiclient.discovery import build
+from matplotlib import use
+from oauth2client.client import GoogleCredentials
+from python_analytics import Tracker, Event
 from threadpool import WorkRequest
+
+use('Agg')
 
 
 class GoogleCloud(BotPlugin):
@@ -30,6 +33,7 @@ class GoogleCloud(BotPlugin):
         self.storage = None
 
     """This is a common common for Google Cloud plugins."""
+
     def activate(self):
         super().activate()
         self.outdir = self.bot_config.BOT_DATA_DIR
@@ -125,4 +129,3 @@ class GoogleCloud(BotPlugin):
         except:
             self.log.exception('Command tracking failed.')
         return msg, cmd, args
-

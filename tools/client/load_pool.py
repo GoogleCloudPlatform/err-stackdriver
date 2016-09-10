@@ -11,9 +11,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import requests
-import time
 import threading
+import time
+
+import requests
 
 
 def load_pool(addr):
@@ -23,6 +24,7 @@ def load_pool(addr):
         raddr = addr + '-' + str(i)
         print('Hitting %s...' % raddr)
         print('Response %s.' % requests.get(raddr).content)
+
 
 if __name__ == '__main__':
     t1 = threading.Thread(target=load_pool, args=('http://146.148.51.155/busyt1',))

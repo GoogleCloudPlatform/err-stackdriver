@@ -10,9 +10,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#!/usr/bin/env python3
-from post_alert import post_alert
+# !/usr/bin/env python3
 from load_pool import load_pool
+from post_alert import post_alert
 
 post_alert('http://localhost:3141/alert')
 load_pool('http://146.148.51.155/busy')

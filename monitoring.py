@@ -9,16 +9,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import os
+from datetime import datetime, timedelta
+
 from errbot import Message
 from errbot import botcmd, BotPlugin
-import charts.timeseries, charts.line
-from charts import interval, line, timeseries
-import charts
-import os
-
-from datetime import datetime, timedelta
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
+
+import charts
+import charts.line
+import charts.timeseries
+from charts import interval, line, timeseries
 
 
 def get_ts():
@@ -57,7 +59,7 @@ class GoogleCloudMonitoring(BotPlugin):
         end = datetime.utcnow() + timedelta(minutes=1)
         start = end - timedelta(minutes=15)
 
-        tid = interval.Guess(start, end)
+        tid = interval.guess(start, end)
         tid.per_series_aligner = None
         tid.alignment_period = None
         # These can be used with the default y_formatter:
@@ -71,15 +73,15 @@ class GoogleCloudMonitoring(BotPlugin):
         # Needs y_formatter=_FormatPercent
         # compute.googleapis.com/instance/cpu/utilization
         collection = line.get_collection_from_metrics(
-                api=timeseries.Client(self.monitoring),
-                project_id=self.project(),
-                metric=metric,
-                start=start, end=end, time_interval_display=tid)
+            api=timeseries.Client(self.monitoring),
+            project_id=self.project(),
+            metric=metric,
+            start=start, end=end, time_interval_display=tid)
         charts.generate_timeseries_linechart(
-                collection=collection,
-                time_interval_display=tid,
-                outfile=output,
-                #y_formatter=_FormatPercent,
+            collection=collection,
+            time_interval_display=tid,
+            outfile=output,
+            # y_formatter=_FormatPercent,
         )
         with open(output, 'rb') as source:
             media = MediaIoBaseUpload(source, mimetype='image/png')
@@ -119,7 +121,6 @@ class GoogleCloudMonitoring(BotPlugin):
 
         return '\n'.join('* **%s** %s' % (m['type'], m['description']) for m in out)
 
-
     @botcmd
     def metric_addbookmark(self, _, args: str):
         """
@@ -134,7 +135,7 @@ class GoogleCloudMonitoring(BotPlugin):
         """
         Stores a metric bookmark and assigns it a number.
         """
-        return '\n'.join( '%i: %s' % (i, bookmark) for i, bookmark in enumerate(self['bookmarks']))
+        return '\n'.join('%i: %s' % (i, bookmark) for i, bookmark in enumerate(self['bookmarks']))
 
     @botcmd
     def metric_delbookmark(self, _, args: str):

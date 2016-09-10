@@ -21,6 +21,7 @@ from charts import timeseries
 HOURS_FORMATTER = mdates.DateFormatter('%H:%M')
 DAYS_FORMATTER = mdates.DateFormatter('%x')
 
+
 class TimeIntervalDisplay(object):
     def __init__(self, tick_minutes, alignment_period=None,
                  per_series_aligner=None,
@@ -49,7 +50,7 @@ class TimeIntervalDisplay(object):
     __repr__ = __str__
 
 
-def Guess(start, end):
+def guess(start, end):
     # TODO: major_formatter should display the date if the start and end cross
     # a UTC date boundary.
     if start >= end:

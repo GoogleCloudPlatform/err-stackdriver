@@ -12,25 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import requests
 import time
+
+import requests
+
 
 def post_alert(addr):
     print('Posting an alert ...')
 
-
-    incident = {'incident':
-                {'started_at': int(time.time()),
-                 'incident_id': 'f2e08c333dc64cb09f75eaab355393bz',
-                 'resource_id': 'i-4a266a2d',
-                 'state': 'open',
-                 'condition_name': 'CPU usage',
-                 'ended_at': None,
-                 'url': 'https://app.stackdriver.com/incidents/f2e08c333dc64cb09f75eaab355393bz',
-                 'resource_name': 'www1',
-                 'policy_name': 'Webserver Health',
-                 'summary': 'CPU (agent) for www1 is above the threshold of 90% with a value of 99%'
-                 },
+    incident = {'incident': {'started_at': int(time.time()),
+                             'incident_id': 'f2e08c333dc64cb09f75eaab355393bz',
+                             'resource_id': 'i-4a266a2d',
+                             'state': 'open',
+                             'condition_name': 'CPU usage',
+                             'ended_at': None,
+                             'url': 'https://app.stackdriver.com/incidents/f2e08c333dc64cb09f75eaab355393bz',
+                             'resource_name': 'www1',
+                             'policy_name': 'Webserver Health',
+                             'summary': 'CPU (agent) for www1 is above the threshold of 90% with a value of 99%'
+                             },
                 'version': 1}
     r = requests.post(addr, json=incident)
     print('Done: Replied %s' % r.content)
