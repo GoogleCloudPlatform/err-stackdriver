@@ -12,11 +12,11 @@ before_install:
 install: pip install tox
 script: tox
 
-# notification for gitter integration
-#notifications:
-#  webhooks:
-#    urls:
-#      - https://webhooks.gitter.im/e/788e94bb42a75aa2df4c
-#    on_success: always  # options: [always|never|change] default: always
-#    on_failure: always  # options: [always|never|change] default: always
-#    on_start: true     # default: false
+# notification for gitter integration at https://gitter.im/GoogleCloudPlatform/err-gcloud
+notifications:
+  webhooks:
+    urls:
+       - https://webhooks.gitter.im/e/2ae0264133304df746c9
+    on_success: always  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: true     # default: false
