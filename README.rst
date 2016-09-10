@@ -5,15 +5,20 @@
    :target: http://www.apache.org/licenses/LICENSE-2.0 
    :alt: License
 
-.. image:: https://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg
-   :target: https://gitter.im/GoogleCloudPlatform/err-gcloud?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
-   :alt: Join the chat at https://gitter.im/GoogleCloudPlatform/err-gcloud
+.. image:: https://img.shields.io/badge/gitter-join%20chat%20%e2%86%92-brightgreen.svg
+   :target: https://gitter.im/googlecloudplatform/err-gcloud?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+   :alt: join the chat at https://gitter.im/googlecloudplatform/err-gcloud
 
 Google Cloud ChatOps plugin for Errbot
 ======================================
 
 This plugin allows you to connect expose commands for your team in a Slack or Hipchat channel.
 `More information about Errbot <http://errbot.io>`_.
+
+For example, this is a screenshot showing the bigquery feature where you can execute or graph a saved query directly
+from Slack.
+
+.. image:: https://raw.githubusercontent.com/GoogleCloudPlatform/err-gcloud/master/docs/imgs/bigquery.png
 
 Quickstart
 ----------
