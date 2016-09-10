@@ -4,7 +4,6 @@ python: "3.5"
 env:
   - TOXENV=py35
   - TOXENV=codestyle
-  - TOXENV=pypi-lint
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_37013481d15f_key -iv $encrypted_37013481d15f_iv -in tests/servacc.json.enc -out servacc.json -d
