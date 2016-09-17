@@ -1,16 +1,19 @@
-.. image:: https://img.shields.io/travis/GoogleCloudPlatform/err-gcloud/master.svg
-   :target: https://travis-ci.org/GoogleCloudPlatform/err-gcloud/
+.. image:: https://img.shields.io/travis/GoogleCloudPlatform/err-stackdriver/master.svg
+   :target: https://travis-ci.org/GoogleCloudPlatform/err-stackdriver/
 
 .. image:: https://img.shields.io/badge/License-Apache_v2-green.svg
    :target: http://www.apache.org/licenses/LICENSE-2.0 
    :alt: License
 
 .. image:: https://img.shields.io/badge/gitter-join%20chat%20%e2%86%92-brightgreen.svg
-   :target: https://gitter.im/googlecloudplatform/err-gcloud?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
-   :alt: join the chat at https://gitter.im/googlecloudplatform/err-gcloud
+   :target: https://gitter.im/googlecloudplatform/err-stackdriver?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+   :alt: join the chat at https://gitter.im/googlecloudplatform/err-stackdriver
 
-Google Cloud ChatOps plugin for Errbot
-======================================
+Stackdriver plugin for Errbot
+=============================
+
+Chatops features for Google Cloud
+---------------------------------
 
 This plugin allows you to connect expose commands for your team in a Slack or Hipchat channel.
 `More information about Errbot <http://errbot.io>`_.
@@ -18,7 +21,7 @@ This plugin allows you to connect expose commands for your team in a Slack or Hi
 For example, this is a screenshot showing the bigquery feature where you can execute or graph a saved query directly
 from Slack.
 
-.. image:: https://raw.githubusercontent.com/GoogleCloudPlatform/err-gcloud/master/docs/imgs/bigquery.png
+.. image:: https://raw.githubusercontent.com/GoogleCloudPlatform/err-stackdriver/master/docs/imgs/bigquery.png
 
 Quickstart
 ----------
@@ -38,7 +41,7 @@ Contributing
 
 Contributions to this plugin are always welcome and highly encouraged.
 
-See `err-gcloud`'s `CONTRIBUTE <CONTRIBUTE.md>`_ documentation.
+See `err-stackdriver`'s `CONTRIBUTE <CONTRIBUTE.md>`_ documentation.
 
 Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms. See `Code of Conduct <CODE_OF_CONDUCT.md>`_ for more information.
 
