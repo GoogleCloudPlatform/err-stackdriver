@@ -10,9 +10,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import os
+import pprint
 from datetime import datetime, timedelta
 
-from errbot import Message
+from errbot import Message, webhook
 from errbot import botcmd, BotPlugin
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
@@ -180,3 +181,81 @@ class GoogleCloudMonitoring(BotPlugin):
                                ('From', str(now - timedelta(minutes=15))),
                                ('To', str(now)),
                                ))
+
+    # Stackdriver webhooks integration.
+    #
+    # You need to add a "Static Webhook" on Google Cloud Monitoring, the url
+    # needs a / at the end for example:
+    # Endpoint URL: http://104.154.88.45:3141/stackdriver/
+    # Webhook Name: Errbot
+    #
+    # example of the webhook from Stackdriver
+    # {
+    #    "dashboard":
+    #        {
+    #            "name": "projects/gstackdriver-workspace/dashboards/9380664182838280959",
+    #            "displayName": "Terrence Test",
+    #            "version": "1",
+    #            "root": {
+    #                "xyChart": {
+    #                    "dataSets": [
+    #                        {
+    #                            "timeSeriesFilter": {
+    #                                "filter": "\"metric.type = \\\"cloudsql.googleapis.com/database/disk/bytes_used\\\""
+    #                            }
+    #                        }
+    #                    ],
+    #                    "xAxis": {
+    #                        "label": "Time"
+    #                    }
+    #                }
+    #            }
+    #        }
+    # }
+    @webhook
+    def stackdriver(self, req):
+        self.log.debug("Incoming webhook:\n")
+        whpp = pprint.pformat(req, indent=2)
+        self.log.debug(whpp)
+        if 'dashboard' not in req:
+            self.log.warn('Unsupported webhook:\n' + whpp)
+            return 'ERROR'
+
+        dashboard = req['dashboard']
+        if 'root' not in dashboard:
+            self.log.warn('Unsupported webhook:\n' + whpp)
+            return 'ERROR'
+
+        root = dashboard['root']
+        filter = root['dataSets'][0]['timeSeriesFilter']['filter']
+
+        res = self.monitoring.projects().metricDescriptors().list(name='projects/%s' % self.project(),
+                                                                  filter=filter).execute()
+        metrics = res.get('metricDescriptors', [])
+
+        if not metrics:
+            self.log.warn('Could not find metric form filter: %s', filter)
+            return 'ERROR'
+
+        metric = metrics[0]
+
+        url = self.gen_graph(metric['type'], metric['type'])
+        now = datetime.now()
+        now = datetime(day=now.day,
+                       month=now.month,
+                       year=now.year,
+                       hour=now.hour,
+                       minute=now.minute,
+                       second=now.second)
+
+        room = self.query_room('google')  # TODO: pass on the Room from the message
+
+        self.send_card(to=room,
+                       title=metric['description'],
+                       image=url,
+                       fields=(('Project', self.project()),
+                               ('Metric', metric),
+                               ('From', str(now - timedelta(minutes=15))),
+                               ('To', str(now)),
+                               ))
+        return "OK"
