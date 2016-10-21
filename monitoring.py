@@ -119,7 +119,7 @@ class GoogleCloudMonitoring(BotPlugin):
             out.extend(response.get('metricDescriptors', []))
             next_token = response.get('nextPageToken')
 
-        return '\n'.join('* **%s** %s' % (m['type'], m['description']) for m in out)
+        return '\n'.join('* %s %s' % (m['type'], m['description']) for m in out)
 
     @botcmd
     def metric_addbookmark(self, _, args: str):

@@ -18,11 +18,12 @@ import requests
 from errbot import BotPlugin, botcmd, cmdfilter, version
 from googleapiclient.discovery import build
 from matplotlib import use
+use('Agg')
 from oauth2client.client import GoogleCredentials
 from python_analytics import Tracker, Event
 from threadpool import WorkRequest
 
-use('Agg')
+
 
 
 class GoogleCloud(BotPlugin):

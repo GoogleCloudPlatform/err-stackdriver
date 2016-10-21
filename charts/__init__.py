@@ -11,6 +11,9 @@
 # limitations under the License.
 
 """Generates a chart of Cloud Monitoring metrics. Not thread safe."""
+from matplotlib import use
+use('Agg')
+
 from numbers import Number
 from typing import List
 from charts.line import Collection
@@ -19,6 +22,7 @@ import base64
 import datetime
 import io
 import math
+
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
